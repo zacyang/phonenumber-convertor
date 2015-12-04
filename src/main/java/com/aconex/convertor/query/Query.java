@@ -1,5 +1,7 @@
 package com.aconex.convertor.query;
 
+import java.util.Set;
+
 public interface Query<T> {
-    T getItemStartsWith(Criteria criteria);
+    Set<String> getItemStartsWith(Criteria criteria);
 }

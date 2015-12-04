@@ -7,10 +7,10 @@ public final class MatchingObject {
     private final List<List<String>> allocatedNumbers;
 
     public MatchingObject(final String originalNumbers,
-                          final List<List<String>> allocatedNumbers) {
-        assert (allocatedNumbers != null && !allocatedNumbers.isEmpty());
+                          final List<List<String>> wordReplacementList) {
+        assert (wordReplacementList != null && !wordReplacementList.isEmpty());
         this.originalNumber = originalNumbers;
-        this.allocatedNumbers = allocatedNumbers;
+        this.allocatedNumbers = wordReplacementList;
     }
 
     public List<String> getReplacementWordAt(int i) {

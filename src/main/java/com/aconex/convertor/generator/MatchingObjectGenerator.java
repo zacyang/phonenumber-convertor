@@ -1,4 +1,4 @@
-package com.aconex.convertor.processor;
+package com.aconex.convertor.generator;
 
 import com.aconex.convertor.config.ApplicationConfig;
 import com.aconex.convertor.model.MatchingObject;
@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MatchingObjectReader {
+public class MatchingObjectGenerator {
     private ApplicationConfig config;
 
-    public MatchingObjectReader(ApplicationConfig config) {
+    public MatchingObjectGenerator(final ApplicationConfig config) {
         this.config = config;
     }
 

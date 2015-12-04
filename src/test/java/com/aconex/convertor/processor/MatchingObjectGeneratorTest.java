@@ -1,12 +1,16 @@
 package com.aconex.convertor.processor;
 
 import com.aconex.convertor.config.ApplicationConfig;
+import com.aconex.convertor.generator.MatchingObjectGenerator;
 import com.aconex.convertor.model.MatchingObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -14,11 +18,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-/**
- * Created by twer on 12/5/15.
- */
-public class MatchingObjectReaderTest {
-    private MatchingObjectReader classUnderTest;
+public class MatchingObjectGeneratorTest {
+    private MatchingObjectGenerator classUnderTest;
     @Mock
     private ApplicationConfig config;
     private Map<String, List<String>> configMap;
@@ -28,7 +29,7 @@ public class MatchingObjectReaderTest {
         initMocks(this);
 
         prepareConfigData();
-        classUnderTest = new MatchingObjectReader(config);
+        classUnderTest = new MatchingObjectGenerator(config);
     }
 
     @Test
