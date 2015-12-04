@@ -1,25 +1,27 @@
 package com.aconex.convertor.model;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 
-/**
- * Created by twer on 12/3/15.
- */
 public final class MatchingObject {
-    private final String originalNumbers;
-    private final String allocatedNumbers;
-    private final Set<String> matchingResults;
+    private final String originalNumber;
+    private final List<List<String>> allocatedNumbers;
 
     public MatchingObject(final String originalNumbers,
-                          final String allocatedNumbers) {
-        this.originalNumbers = originalNumbers;
+                          final List<List<String>> allocatedNumbers) {
+        assert (allocatedNumbers != null && !allocatedNumbers.isEmpty());
+        this.originalNumber = originalNumbers;
         this.allocatedNumbers = allocatedNumbers;
-        this.matchingResults = new LinkedHashSet<>();
     }
 
+    public List<String> getReplacementWordAt(int i) {
+        if (allocatedNumbers.size() > i) {
 
-    void addMatch(final String result) {
-        matchingResults.add(result);
+            return allocatedNumbers.get(i);
+        }
+        throw new IllegalArgumentException("the index query for word replacement exceeds the boundary!");
+    }
+
+    public String getOriginalNumber() {
+        return originalNumber;
     }
 }
