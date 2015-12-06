@@ -1,6 +1,6 @@
 package com.aconex.convertor.generator;
 
-import com.aconex.convertor.model.MatchingObject;
+import com.aconex.convertor.model.MatchingMetaInfo;
 import com.aconex.convertor.query.MatchingChunk;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class WordLengthCombinationGeneratorTest {
         List<List<String>> sequenceForWordReplacement = asList(
                 asList("A","B","C")
         );
-        MatchingObject matchingObject =new MatchingObject(originalNumber, sequenceForWordReplacement);
+        MatchingMetaInfo matchingObject =new MatchingMetaInfo(originalNumber, sequenceForWordReplacement);
         //when
         List<MatchingChunk> lists = classUnderTest.generateCriterias(matchingObject);
         //then

@@ -1,7 +1,7 @@
 package com.aconex.convertor.generator;
 
 import com.aconex.convertor.config.ApplicationConfig;
-import com.aconex.convertor.model.MatchingObject;
+import com.aconex.convertor.model.MatchingMetaInfo;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class MatchingObjectGenerator {
         this.config = config;
     }
 
-    public MatchingObject getMatchingObject(final String phoneNumber) {
+    public MatchingMetaInfo getMatchingObject(final String phoneNumber) {
         List<List<String>> possibleWords = new LinkedList<>();
         final int len = phoneNumber.length();
         Map<String, List<String>> digitalWordingMap = config.getDigitalWordingMap();
@@ -25,6 +25,6 @@ public class MatchingObjectGenerator {
             possibleWords.add(e);
         }
 
-        return new MatchingObject(phoneNumber, possibleWords);
+        return new MatchingMetaInfo(phoneNumber, possibleWords);
     }
 }

@@ -2,12 +2,12 @@ package com.aconex.convertor.model;
 
 import java.util.List;
 
-public final class MatchingObject {
+public final class MatchingMetaInfo {
     private final String originalNumber;
     private final List<List<String>> allocatedNumbers;
 
-    public MatchingObject(final String originalNumbers,
-                          final List<List<String>> wordReplacementList) {
+    public MatchingMetaInfo(final String originalNumbers,
+                            final List<List<String>> wordReplacementList) {
         assert (wordReplacementList != null && !wordReplacementList.isEmpty());
         this.originalNumber = originalNumbers;
         this.allocatedNumbers = wordReplacementList;

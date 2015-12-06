@@ -4,10 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class MatchingResult {
-    private final MatchingObject matchingObject;
+    private final MatchingMetaInfo matchingObject;
     private Set<String> allPossibleMatching = new HashSet<>();
 
-    public MatchingResult(final MatchingObject matchingObject) {
+    public MatchingResult(final MatchingMetaInfo matchingObject) {
         this.matchingObject = matchingObject;
     }
 

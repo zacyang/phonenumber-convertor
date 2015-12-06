@@ -2,7 +2,7 @@ package com.aconex.convertor.processor;
 
 import com.aconex.convertor.config.ApplicationConfig;
 import com.aconex.convertor.generator.MatchingObjectGenerator;
-import com.aconex.convertor.model.MatchingObject;
+import com.aconex.convertor.model.MatchingMetaInfo;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class MatchingObjectGeneratorTest {
+public class MatchingMetaInfoGeneratorTest {
     private MatchingObjectGenerator classUnderTest;
     @Mock
     private ApplicationConfig config;
@@ -41,7 +41,7 @@ public class MatchingObjectGeneratorTest {
         expectedReplacementWordsForTwo.add("C");
         given(config.getDigitalWordingMap()).willReturn(configMap);
 
-        MatchingObject matchingObject = classUnderTest.getMatchingObject(inputPhoneNumber);
+        MatchingMetaInfo matchingObject = classUnderTest.getMatchingObject(inputPhoneNumber);
 
         assertThat(matchingObject, notNullValue());
         List<String> replacementWordAt = matchingObject.getReplacementWordAt(0);
