@@ -80,7 +80,7 @@ public class TextSourceDictionary implements Query<String> {
                     if (partialMatchedReminder.equals("")) {
                         result.add(matchingChunk);
                     } else {
-                        result.addAll(lookUp(partialMatchedReminder, result));
+//                        result.addAll(lookUp(partialMatchedReminder, result));
                     }
                 }
         );
@@ -88,8 +88,9 @@ public class TextSourceDictionary implements Query<String> {
     }
 
     private String matches(String number, String digitals) {
-        if (number.contains(digitals)) {
-            return number.substring(digitals.length() - 1, number.length() - 1);
+//        if (number.contains(digitals)) {
+        if (number.startsWith(digitals)) {
+            return number.substring(digitals.length() , number.length() );
         } else {
             return null;
         }
