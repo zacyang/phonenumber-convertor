@@ -1,6 +1,8 @@
 package com.aconex.convertor.query.datasource;
 
 import com.aconex.convertor.model.MatchingMetaInfo;
+import com.aconex.convertor.query.Criteria;
+import com.aconex.convertor.query.CriteriaInterpreter;
 import com.aconex.convertor.query.MatchingChunk;
 import com.aconex.convertor.query.Query;
 
@@ -48,72 +50,37 @@ public class TextSourceDictionary implements Query<String> {
     @Override
     public List<MatchingChunk> getMatched(MatchingMetaInfo criteria) {
         List<MatchingChunk> result = new ArrayList<>();
-        lookUp(criteria.getOriginalNumber(),null, result);
+        lookUp(criteria.getOriginalNumber(), null, result);
         return result;
     }
 
     private void lookUp(final String originalNumber,
-                                       final MatchingChunk chunk,
-                                       final List<MatchingChunk> result) {
-        dictionary.forEach((k,words)->{
-                String partialMatchedReminder = matches(originalNumber, k);
+                        final MatchingChunk chunk,
+                        final List<MatchingChunk> result) {
+        dictionary.forEach((k, words) -> {
+                    String partialMatchedReminder = matches(originalNumber, k);
                     if (partialMatchedReminder == null) {
-                       return;
+                        return;
                     }
                     MatchingChunk newChunk;
-                    if(chunk == null){
+                    if (chunk == null) {
                         newChunk = new MatchingChunk();
                     } else {
                         newChunk = chunk;
                     }
                     newChunk.addNextWordPossiableMathcing(words);
-                    if(partialMatchedReminder.equals("")){
+                    if (partialMatchedReminder.equals("")) {
                         result.add(newChunk);
-                        return;
-                    }else{
-                        lookUp(partialMatchedReminder,newChunk, result);
+                    } else {
+                        lookUp(partialMatchedReminder, newChunk, result);
                     }
                 }
-//
         );
-//        Set<String> keyset = dictionary.keySet();
-//        for(String k : keyset){
-//            String partialMatchedReminder = matches(originalNumber, k);
-//            if (partialMatchedReminder == null) {
-//                continue;
-//            }
-//
-//            List<String> v = dictionary.get(k);
-//            MatchingChunk matchingChunk = new MatchingChunk(v);
-//            if (partialMatchedReminder == "") {
-//                result.add(matchingChunk);
-//            } else {
-//                result.addAll(lookUp(partialMatchedReminder, result));
-//            }
-//        }
-
-//        dictionary.forEach((k, v) ->
-//                {
-//                    String partialMatchedReminder = matches(originalNumber, k);
-//                    if (partialMatchedReminder == null) {
-//                       return;
-//                    }
-//
-//                    MatchingChunk matchingChunk = new MatchingChunk(v);
-//                    if (partialMatchedReminder.equals("")) {
-//                        result.add(matchingChunk);
-//                    } else {
-//                        result.addAll(lookUp(partialMatchedReminder, result));
-//                    }
-//                }
-//        );
-//        return result;
     }
 
     private String matches(String number, String digitals) {
-//        if (number.contains(digitals)) {
         if (number.startsWith(digitals)) {
-            return number.substring(digitals.length() , number.length() );
+            return number.substring(digitals.length(), number.length() );
         } else {
             return null;
         }
@@ -147,9 +114,21 @@ public class TextSourceDictionary implements Query<String> {
         System.out.println(map.toString());
         TextSourceDictionary dictionaryTOquery = new TextSourceDictionary(map, null);
         List<MatchingChunk> matched = dictionaryTOquery.getMatched(new MatchingMetaInfo("2255", null));
-        System.out.println(matched.stream().allMatch(s-> s.equals("call")));
+        System.out.println(matched.stream().allMatch(s -> s.equals("call")));
 
-        System.out.println(matched);
+        List<String> result = new ArrayList<>();
+        for (MatchingChunk chunk : matched) {
+            Criteria criteria = new Criteria();
+            List<List<String>> wordsSequance = chunk.getWordsSequance();
+            for (List<String> words : wordsSequance) {
+                criteria.nextWordMayBe(words);
+            }
+
+            List<String> allCombos = new CriteriaInterpreter().getAllCombos(criteria);
+            result.addAll(allCombos);
+        }
+        System.out.println("-----------------");
+        System.out.println(Arrays.toString(result.toArray()));
     }
 
     private String encodeForWord(String line) {
