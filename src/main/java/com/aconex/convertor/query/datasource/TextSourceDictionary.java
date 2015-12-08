@@ -48,12 +48,34 @@ public class TextSourceDictionary implements Query<String> {
     @Override
     public List<MatchingChunk> getMatched(MatchingMetaInfo criteria) {
         List<MatchingChunk> result = new ArrayList<>();
-        lookUp(criteria.getOriginalNumber(), result);
+        lookUp(criteria.getOriginalNumber(),null, result);
         return result;
     }
 
-    private List<MatchingChunk> lookUp(final String originalNumber,
+    private void lookUp(final String originalNumber,
+                                       final MatchingChunk chunk,
                                        final List<MatchingChunk> result) {
+        dictionary.forEach((k,words)->{
+                String partialMatchedReminder = matches(originalNumber, k);
+                    if (partialMatchedReminder == null) {
+                       return;
+                    }
+                    MatchingChunk newChunk;
+                    if(chunk == null){
+                        newChunk = new MatchingChunk();
+                    } else {
+                        newChunk = chunk;
+                    }
+                    newChunk.addNextWordPossiableMathcing(words);
+                    if(partialMatchedReminder.equals("")){
+                        result.add(newChunk);
+                        return;
+                    }else{
+                        lookUp(partialMatchedReminder,newChunk, result);
+                    }
+                }
+//
+        );
 //        Set<String> keyset = dictionary.keySet();
 //        for(String k : keyset){
 //            String partialMatchedReminder = matches(originalNumber, k);
@@ -69,22 +91,23 @@ public class TextSourceDictionary implements Query<String> {
 //                result.addAll(lookUp(partialMatchedReminder, result));
 //            }
 //        }
-        dictionary.forEach((k, v) ->
-                {
-                    String partialMatchedReminder = matches(originalNumber, k);
-                    if (partialMatchedReminder == null) {
-                       return;
-                    }
 
-                    MatchingChunk matchingChunk = new MatchingChunk(v);
-                    if (partialMatchedReminder.equals("")) {
-                        result.add(matchingChunk);
-                    } else {
+//        dictionary.forEach((k, v) ->
+//                {
+//                    String partialMatchedReminder = matches(originalNumber, k);
+//                    if (partialMatchedReminder == null) {
+//                       return;
+//                    }
+//
+//                    MatchingChunk matchingChunk = new MatchingChunk(v);
+//                    if (partialMatchedReminder.equals("")) {
+//                        result.add(matchingChunk);
+//                    } else {
 //                        result.addAll(lookUp(partialMatchedReminder, result));
-                    }
-                }
-        );
-        return result;
+//                    }
+//                }
+//        );
+//        return result;
     }
 
     private String matches(String number, String digitals) {
