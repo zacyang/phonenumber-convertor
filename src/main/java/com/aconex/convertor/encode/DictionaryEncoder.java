@@ -2,9 +2,6 @@ package com.aconex.convertor.encode;
 
 import java.util.Map;
 
-/**
- * Created by twer on 12/8/15.
- */
 public class DictionaryEncoder {
     private final Map<String, Integer> encodeConfig;
 

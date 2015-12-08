@@ -16,7 +16,7 @@ public class FullMatchQuery implements Query<String> {
     }
 
     @Override
-    public List<MatchingResult> getMatched(MatchingMetaInfo criteria) {
+    public List<MatchingResult> getMatched(final MatchingMetaInfo criteria) {
         List<MatchingResult> result = new ArrayList<>();
         lookUp(criteria.getOriginalNumber(), null, result);
         return result;
@@ -32,7 +32,7 @@ public class FullMatchQuery implements Query<String> {
                         return;
                     }
                     MatchingResult newChunk = getMatchingChunk(chunk);
-                    newChunk.addNextWordPossibleMathcing(words);
+                    newChunk.addNextWordPossibleMatching(words);
                     if (partialMatchedReminder.equals("")) {
                         result.add(newChunk);
                     } else {

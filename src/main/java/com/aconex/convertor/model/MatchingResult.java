@@ -18,7 +18,7 @@ public final class MatchingResult implements Cloneable {
         return this.words;
     }
 
-    public void addNextWordPossibleMathcing(List<String> strings) {
+    public void addNextWordPossibleMatching(List<String> strings) {
         this.words.add(strings);
     }
 
