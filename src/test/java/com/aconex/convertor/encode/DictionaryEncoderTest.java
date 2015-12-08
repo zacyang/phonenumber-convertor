@@ -1,21 +1,28 @@
 package com.aconex.convertor.encode;
 
+import com.aconex.convertor.config.ApplicationConfig;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class DictionaryEncoderTest {
     private DictionaryEncoder classUnderTest;
-    private Map<String, Integer> encodingConfig;
+
+    @Mock
+    private ApplicationConfig applicationConfig;
 
     @Before
     public void setUp() throws Exception {
-        encodingConfig = new HashMap<>();
+        initMocks(this);
+        Map<String, Integer> encodingConfig = new HashMap<>();
         encodingConfig.put("A", 2);
         encodingConfig.put("B", 2);
         encodingConfig.put("C", 2);
@@ -42,7 +49,8 @@ public class DictionaryEncoderTest {
         encodingConfig.put("X", 9);
         encodingConfig.put("Y", 9);
         encodingConfig.put("Z", 9);
-        classUnderTest = new DictionaryEncoder(encodingConfig);
+        given(applicationConfig.getEncodingConfig()).willReturn(encodingConfig);
+        classUnderTest = new DictionaryEncoder(applicationConfig);
     }
 
     @Test

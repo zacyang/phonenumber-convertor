@@ -1,12 +1,14 @@
 package com.aconex.convertor.encode;
 
+import com.aconex.convertor.config.ApplicationConfig;
+
 import java.util.Map;
 
 public class DictionaryEncoder {
     private final Map<String, Integer> encodeConfig;
 
-    public DictionaryEncoder(final Map<String, Integer> encodeConfig) {
-        this.encodeConfig = encodeConfig;
+    public DictionaryEncoder(final ApplicationConfig config) {
+        this.encodeConfig = config.getEncodingConfig();
     }
 
     public String encodeForWord(final String line) {
