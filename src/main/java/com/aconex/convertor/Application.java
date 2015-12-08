@@ -52,7 +52,7 @@ public class Application {
         BufferedReader in = new BufferedReader(in1);
         String line = "";
         FullMatchQuery dic = new FullMatchQuery(null);
-        DictionaryEncoder encoder = new DictionaryEncoder(new ApplicationConfig().getEncodingConfig());
+        DictionaryEncoder encoder = new DictionaryEncoder(new ApplicationConfig());
         while ((line = in.readLine()) != null) {
             if (line.length() > 0) {
 

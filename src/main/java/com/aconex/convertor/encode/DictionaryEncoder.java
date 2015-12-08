@@ -5,7 +5,7 @@ import com.aconex.convertor.config.ApplicationConfig;
 import java.util.Map;
 
 public class DictionaryEncoder {
-    private final Map<String, Integer> encodeConfig;
+    private final Map<String, String> encodeConfig;
 
     public DictionaryEncoder(final ApplicationConfig config) {
         this.encodeConfig = config.getEncodingConfig();
@@ -16,7 +16,7 @@ public class DictionaryEncoder {
         for (int i = 0; i < line.length(); i++) {
             char c = line.charAt(i);
             String s = String.valueOf(c);
-            Integer obj = encodeConfig.get(s.toUpperCase());
+            String obj = encodeConfig.get(s.toUpperCase());
             if (obj != null) {
                 result.append(obj);
             }
