@@ -23,7 +23,7 @@ public class FullMatchQuery implements Query<String> {
             throw new IllegalArgumentException(QUERY_NUMBER_SHOULD_NOT_BE_NULL_OR_EMPTY);
         }
         List<MatchingResult> result = new ArrayList<>();
-        lookUp(originalNumber, null, result);
+        lookUp(originalNumber, new MatchingResult(), result);
         return result;
     }
 
@@ -31,38 +31,41 @@ public class FullMatchQuery implements Query<String> {
                         final MatchingResult chunk,
                         final List<MatchingResult> result) {
         dictionary.forEach((k, words) -> {
-                    //TODO: result to a objects
-                    String partialMatchedReminder = matches(originalNumber, k);
-                    if (partialMatchedReminder == null) {
+                    final NumberMatchingResult numberMatchingResult = matches(originalNumber, k);
+                    if (numberMatchingResult.notMatchAtAll) {
                         return;
                     }
-                    MatchingResult newChunk = getMatchingChunk(chunk);
+                    MatchingResult newChunk =new MatchingResult(chunk);
                     newChunk.addNextWordPossibleMatching(words);
-                    if (partialMatchedReminder.equals("")) {
+                    if (numberMatchingResult.isFullMatch) {
                         result.add(newChunk);
                     } else {
-                        lookUp(partialMatchedReminder, newChunk, result);
+                        lookUp(numberMatchingResult.rest, newChunk, result);
                     }
                 }
         );
     }
 
-    private MatchingResult getMatchingChunk(final MatchingResult chunk) {
-        MatchingResult newChunk;
-        if (chunk == null) {
-            newChunk = new MatchingResult();
+    private NumberMatchingResult matches(final String number,
+                                         final String digitals) {
+        if (number.startsWith(digitals)) {
+            return new NumberMatchingResult(number.substring(digitals.length(), number.length()));
         } else {
-            newChunk = new MatchingResult(chunk);
+            return new NumberMatchingResult(null);
         }
-        return newChunk;
     }
 
-    private String matches(final String number,
-                           final String digi) {
-        if (number.startsWith(digi)) {
-            return number.substring(digi.length(), number.length());
-        } else {
-            return null;
+    private static class NumberMatchingResult {
+        private final String rest;
+        boolean isFullMatch;
+        boolean isPartialMatch;
+        boolean notMatchAtAll;
+
+        NumberMatchingResult(final String rest) {
+            this.rest = rest;
+            notMatchAtAll = rest == null;
+            isFullMatch = "".equals(rest);
+            isPartialMatch = !isFullMatch && !notMatchAtAll;
         }
     }
 

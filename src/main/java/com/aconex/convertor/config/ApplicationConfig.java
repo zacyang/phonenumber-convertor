@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 
 public class ApplicationConfig {
+    private static final String ENCODING_PROPERTIES = "encoding.properties";
     private final Map<String, String> encodingConfig;
     private final Properties configProp;
     private String separator = "-";
@@ -15,8 +16,7 @@ public class ApplicationConfig {
     public ApplicationConfig() {
         configProp = new Properties();
         this.encodingConfig = new HashMap<>();
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream("encoding.properties");
-        System.out.println("Read all properties from file");
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream(ENCODING_PROPERTIES);
         try {
             configProp.load(in);
         } catch (IOException e) {
@@ -27,11 +27,8 @@ public class ApplicationConfig {
 
     private void initProperties() {
         configProp.forEach((k, v) ->
-                {
-                    encodingConfig.put(k.toString(), v.toString());
-                }
+                encodingConfig.put(k.toString(), v.toString())
         );
-
     }
 
     public Map<String, String> getEncodingConfig() {
