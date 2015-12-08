@@ -1,7 +1,9 @@
 package com.aconex.convertor.query;
 
-import java.util.Set;
+import com.aconex.convertor.model.MatchingMetaInfo;
+
+import java.util.List;
 
 public interface Query<T> {
-    Set<String> getItemStartsWith(Criteria criteria);
+    List<MatchingChunk> getMatched(MatchingMetaInfo criteria);
 }

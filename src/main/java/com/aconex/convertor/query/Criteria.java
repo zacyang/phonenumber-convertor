@@ -1,17 +1,29 @@
 package com.aconex.convertor.query;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Criteria {
-    public Criteria query() {
-        return null;
+public final class Criteria {
+    private final List<List<String>> criteriaList;
+
+    public Criteria() {
+        this.criteriaList = new ArrayList<>();
     }
 
-    public Criteria mayStartWith(List<String> words){
-        return null;
+    public Criteria mayStartWith(final List<String> words) {
+        this.criteriaList.add(words);
+        return this;
     }
 
-    public Criteria nextWordMayBe(List<String> words){
-        return null;
+    public Criteria nextWordMayBe(final List<String> words) {
+        this.criteriaList.add(words);
+        return this;
     }
+
+    List<List<String>> getCriteriaList() {
+        return Collections.unmodifiableList(this.criteriaList);
+    }
+
+
 }

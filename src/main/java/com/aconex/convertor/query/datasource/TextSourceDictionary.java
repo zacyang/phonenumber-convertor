@@ -66,7 +66,7 @@ public class TextSourceDictionary implements Query<String> {
                     if (chunk == null) {
                         newChunk = new MatchingChunk();
                     } else {
-                        newChunk = chunk;
+                        newChunk = new MatchingChunk(chunk);
                     }
                     newChunk.addNextWordPossiableMathcing(words);
                     if (partialMatchedReminder.equals("")) {
@@ -80,7 +80,7 @@ public class TextSourceDictionary implements Query<String> {
 
     private String matches(String number, String digitals) {
         if (number.startsWith(digitals)) {
-            return number.substring(digitals.length(), number.length() );
+            return number.substring(digitals.length(), number.length());
         } else {
             return null;
         }
@@ -113,9 +113,9 @@ public class TextSourceDictionary implements Query<String> {
         in.close();
         System.out.println(map.toString());
         TextSourceDictionary dictionaryTOquery = new TextSourceDictionary(map, null);
-        List<MatchingChunk> matched = dictionaryTOquery.getMatched(new MatchingMetaInfo("2255", null));
+        List<MatchingChunk> matched = dictionaryTOquery.getMatched(new MatchingMetaInfo("225563", null));
         System.out.println(matched.stream().allMatch(s -> s.equals("call")));
-
+//
         List<String> result = new ArrayList<>();
         for (MatchingChunk chunk : matched) {
             Criteria criteria = new Criteria();

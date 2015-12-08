@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ApplicationConfig {
-    private Map<String, List<String>> digitalWordingMap;
+    private Map<Integer, List<String>> digitalWordingMap;
 
-    public Map<String, List<String>> getDigitalWordingMap() {
+    public Map<Integer, List<String>> getDigitalWordingMap() {
         return digitalWordingMap;
     }
 
