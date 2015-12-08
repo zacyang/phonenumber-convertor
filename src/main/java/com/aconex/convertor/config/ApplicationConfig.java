@@ -8,10 +8,6 @@ public class ApplicationConfig {
     private final Map<String, Integer> encodingConfig;
     private String separator = "-";
 
-    public Map<String, Integer> getEncodingConfig() {
-        return Collections.unmodifiableMap(encodingConfig);
-    }
-
     public ApplicationConfig() {
         this.encodingConfig = new HashMap<>();
         encodingConfig.put("A", 2);
@@ -40,6 +36,10 @@ public class ApplicationConfig {
         encodingConfig.put("X", 9);
         encodingConfig.put("Y", 9);
         encodingConfig.put("Z", 9);
+    }
+
+    public Map<String, Integer> getEncodingConfig() {
+        return Collections.unmodifiableMap(encodingConfig);
     }
 
     public String getSeparator() {

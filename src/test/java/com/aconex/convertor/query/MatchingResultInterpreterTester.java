@@ -74,6 +74,7 @@ public class MatchingResultInterpreterTester {
                 .nextWordMayBe(word2)
                 .nextWordMayBe(word3);
     }
+
     private Criteria getDefaultCriteria() {
         List<String> word1 = asList("A", "B", "C");
         List<String> word2 = asList("A", "B", "C");

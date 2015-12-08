@@ -4,10 +4,10 @@ package com.aconex.convertor;
 import com.aconex.convertor.config.ApplicationConfig;
 import com.aconex.convertor.encode.DictionaryEncoder;
 import com.aconex.convertor.model.MatchingMetaInfo;
-import com.aconex.convertor.query.Criteria;
-import com.aconex.convertor.query.MatchingResultInterpreter;
 import com.aconex.convertor.model.MatchingResult;
+import com.aconex.convertor.query.Criteria;
 import com.aconex.convertor.query.FullMatchQuery;
+import com.aconex.convertor.query.MatchingResultInterpreter;
 
 import java.io.BufferedReader;
 import java.io.File;

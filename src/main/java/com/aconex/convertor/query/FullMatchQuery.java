@@ -1,13 +1,14 @@
 package com.aconex.convertor.query;
 
-import com.aconex.convertor.model.MatchingResult;
 import com.aconex.convertor.model.MatchingMetaInfo;
+import com.aconex.convertor.model.MatchingResult;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class FullMatchQuery implements Query<String> {
+    private static final String QUERY_NUMBER_SHOULD_NOT_BE_NULL_OR_EMPTY = "Query number should not be null or empty";
     private final Map<String, List<String>> dictionary;
 
     public FullMatchQuery(final Map<String, List<String>> dictionary) {
@@ -17,8 +18,12 @@ public class FullMatchQuery implements Query<String> {
 
     @Override
     public List<MatchingResult> getMatched(final MatchingMetaInfo criteria) {
+        String originalNumber = criteria.getOriginalNumber();
+        if (null == originalNumber || originalNumber.isEmpty()) {
+            throw new IllegalArgumentException(QUERY_NUMBER_SHOULD_NOT_BE_NULL_OR_EMPTY);
+        }
         List<MatchingResult> result = new ArrayList<>();
-        lookUp(criteria.getOriginalNumber(), null, result);
+        lookUp(originalNumber, null, result);
         return result;
     }
 
