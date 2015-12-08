@@ -11,11 +11,6 @@ public final class Criteria {
         this.criteriaList = new ArrayList<>();
     }
 
-    public Criteria mayStartWith(final List<String> words) {
-        this.criteriaList.add(words);
-        return this;
-    }
-
     public Criteria nextWordMayBe(final List<String> words) {
         this.criteriaList.add(words);
         return this;
@@ -24,6 +19,5 @@ public final class Criteria {
     List<List<String>> getCriteriaList() {
         return Collections.unmodifiableList(this.criteriaList);
     }
-
 
 }
