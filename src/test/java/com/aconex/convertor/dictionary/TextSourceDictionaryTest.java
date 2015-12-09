@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -12,6 +13,8 @@ import static org.hamcrest.core.IsNull.notNullValue;
 
 public class TextSourceDictionaryTest {
     private TextSourceDictionary classUnderTest;
+    private static final Pattern UNDESIRABLES = Pattern.compile("[\\]\\[(){},.;!?<>%\\s]");
+
     @Before
     public void setUp() throws Exception {
         classUnderTest = new TextSourceDictionary(null);
@@ -26,6 +29,17 @@ public class TextSourceDictionaryTest {
         //then
         assertThat(words, is(notNullValue()));
         assertThat(words.size(), is(109583));
+    }
+
+    @Test
+    public void sanityShouldContainsNoSpaceNorPunctuationInDefaultDic() throws Exception {
+        //given
+        //when
+        List<String> words = classUnderTest.getWords();
+
+        //then
+        assertThat(words, is(notNullValue()));
+        words.forEach(word -> assertThat("word :" + word, UNDESIRABLES.matcher(word).find(), is(false)));
     }
 
     @Test
