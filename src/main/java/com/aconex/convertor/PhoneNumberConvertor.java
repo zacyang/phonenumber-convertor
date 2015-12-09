@@ -7,6 +7,7 @@ import com.aconex.convertor.model.MatchingMetaInfo;
 import com.aconex.convertor.model.MatchingResult;
 import com.aconex.convertor.query.FullMatchQuery;
 import com.aconex.convertor.query.MatchingResultInterpreter;
+import com.aconex.convertor.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,8 @@ import java.util.regex.Pattern;
 
 public class PhoneNumberConvertor {
     private static ApplicationConfig applicationConfig = new ApplicationConfig();
-    private static final Pattern UNDESIRABLES = Pattern.compile("[\\]\\[(){},.;!?<>%]");
-    private final FullMatchQuery query;
+    private static final Pattern UNDESIRABLES = Pattern.compile("[\\]\\[(){},.;!?<>%\\s]");
+    private final Query query;
 
     public PhoneNumberConvertor(String dictionaryPath) {
         DictionaryEncoder encoder = new DictionaryEncoder(applicationConfig);

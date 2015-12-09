@@ -45,4 +45,14 @@ public class PhoneNumberConvertorTest {
         //then
         assertThat(allPossibleMatch.contains("CALL-ME"), is(true));
     }
+
+    @Test
+    public void shouldGetExpectedMessageByDefaultWith2WordsAndSeparatorSpaces() throws Exception {
+        //given
+
+        //when
+        List<String> allPossibleMatch = classUnderTest.getAllPossibleMatch("2255 63");
+        //then
+        assertThat(allPossibleMatch.contains("CALL-ME"), is(true));
+    }
 }
