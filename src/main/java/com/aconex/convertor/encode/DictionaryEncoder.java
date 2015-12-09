@@ -62,5 +62,4 @@ public class DictionaryEncoder {
         return result.toString();
     }
 
-
 }

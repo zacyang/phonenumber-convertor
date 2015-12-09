@@ -5,6 +5,9 @@ import com.aconex.convertor.model.MatchingResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * This class will generate all the possible combination for given criteria
@@ -28,7 +31,8 @@ public class MatchingResultInterpreter {
         List<String> strings = rest.get(i);
         for (final String x : current) {
             for (final String tobeAppend : strings) {
-                result.add(new String(x + this.seperator + tobeAppend));
+                String e = new String(x + this.seperator + tobeAppend);
+                result.add(e);
             }
         }
         return getAllPossibleCombination(result, rest, ++i);
@@ -40,6 +44,14 @@ public class MatchingResultInterpreter {
         }
         List<List<String>> lists = matchingResult.getWordSequence();
         List<String> result = getAllPossibleCombination(lists.get(0), lists, 1);
-        return result;
+        return result.stream().filter(word ->
+                        shouldNotContainsPunctuationDigitals(word)
+        ).collect(Collectors.toList());
+    }
+
+    private boolean shouldNotContainsPunctuationDigitals(String word) {
+        Pattern pattern = Pattern.compile("(\\d{1}"+this.seperator+"\\d{1})|\\d{2}");
+        Matcher matcher = pattern.matcher(word);
+        return !matcher.find();
     }
 }

@@ -64,6 +64,21 @@ public class MatchingResultInterpreterTester {
         //then
     }
 
+    @Test
+    public void getRegexFilterOutPunctuationDigitalInResult() throws Exception {
+        //given
+        MatchingResult c = getMatchingResultContainsPunctuationDigitals();
+
+        //when
+        List<String> allCombos = classUnderTest.getAllCombos(c);
+
+        //then
+        assertThat(allCombos.size(), is(63));
+        allCombos.forEach(word -> {
+            assertThat(word.contains("3-1"), is(false));
+            assertThat(word.contains("1-1"), is(false));
+        });
+    }
 
     private MatchingResult getSingleWordCriteria() {
         List<String> word1 = asList("A");
@@ -77,11 +92,28 @@ public class MatchingResultInterpreterTester {
         return matchingResult;
     }
 
+
     private MatchingResult getDefaultCriteria() {
         List<String> word1 = asList("A", "B", "C");
         List<String> word2 = asList("A", "B", "C");
         List<String> word3 = asList("J", "K", "L");
         List<String> word4 = asList("J", "K", "L");
+        MatchingResult matchingResult = new MatchingResult();
+
+        matchingResult
+                .addNextWordPossibleMatching(word1);
+        matchingResult.addNextWordPossibleMatching(word2);
+        matchingResult.addNextWordPossibleMatching(word3);
+        matchingResult.addNextWordPossibleMatching(word4);
+        return matchingResult;
+    }
+
+
+    private MatchingResult getMatchingResultContainsPunctuationDigitals() {
+        List<String> word1 = asList("1", "B", "C");
+        List<String> word2 = asList("A", "B", "C");
+        List<String> word3 = asList("1", "3", "L");
+        List<String> word4 = asList("1", "K", "L");
         MatchingResult matchingResult = new MatchingResult();
 
         matchingResult
