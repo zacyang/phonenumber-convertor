@@ -10,7 +10,7 @@ public class Application {
 
     public static void main(String[] args) throws IOException {
         String dictionaryPath = getArgValue(args, "-d", "requires a dictionary path", true);
-        String number = getArgValue(args, "-p", "requires number to be converted",false);
+        String number = getArgValue(args, "-p", "requires number to be converted", false);
 
         PhoneNumberConvertor phoneNumberConvertor = new PhoneNumberConvertor(dictionaryPath);
 
@@ -25,13 +25,12 @@ public class Application {
         String arg;
         while (i < args.length && args[i].startsWith("-")) {
             arg = args[i++];
-            if (arg.equals(targetArgs)) {
-                if (i < args.length) {
-                    value = args[i++];
-                }
+            if (arg.equals(targetArgs) && i < args.length) {
+                value = args[i++];
             }
+            i++;
         }
-        if(value == null && !optional){
+        if (value == null && !optional) {
             String prompt = targetArgs + " :" + errorInfo;
             System.err.println(prompt);
             throw new IllegalArgumentException(prompt);
