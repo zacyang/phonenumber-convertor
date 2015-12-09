@@ -5,7 +5,6 @@ import com.aconex.convertor.config.ApplicationConfig;
 import com.aconex.convertor.encode.DictionaryEncoder;
 import com.aconex.convertor.model.MatchingMetaInfo;
 import com.aconex.convertor.model.MatchingResult;
-import com.aconex.convertor.query.Criteria;
 import com.aconex.convertor.query.FullMatchQuery;
 import com.aconex.convertor.query.MatchingResultInterpreter;
 
@@ -17,7 +16,11 @@ import java.util.*;
 
 public class Application {
 
+    public static final String DIC_TXT = "dic.txt";
+    private static ApplicationConfig applicationConfig =new ApplicationConfig();
+
     public static void main(String[] args) throws IOException {
+
 //TODO: dictionary int
 //        String originalNumbers = "225563";
         String originalNumbers = "2255637";
@@ -31,13 +34,7 @@ public class Application {
     private static void getMathcingResult(List<MatchingResult> matched) {
         List<String> result = new ArrayList<>();
         for (MatchingResult chunk : matched) {
-            Criteria criteria = new Criteria();
-            List<List<String>> wordsSequance = chunk.getWordSequence();
-            for (List<String> words : wordsSequance) {
-                criteria.nextWordMayBe(words);
-            }
-
-            List<String> allCombos = new MatchingResultInterpreter(new ApplicationConfig()).getAllCombos(criteria);
+            List<String> allCombos = new MatchingResultInterpreter(applicationConfig).getAllCombos(chunk);
             result.addAll(allCombos);
         }
         System.out.println("-----------------");
@@ -45,17 +42,15 @@ public class Application {
     }
 
     private static Map<String, List<String>> encodeDictionary() throws IOException {
-        Map<String, List<String>> map = new HashMap<String, List<String>>();
+        Map<String, List<String>> map = new HashMap<>();
         ClassLoader classLoader = FullMatchQuery.class.getClassLoader();
-        File file = new File(classLoader.getResource("dic.txt").getFile());
+        File file = new File(classLoader.getResource(DIC_TXT).getFile());
         FileReader in1 = new FileReader(file);
         BufferedReader in = new BufferedReader(in1);
         String line = "";
-        FullMatchQuery dic = new FullMatchQuery(null);
-        DictionaryEncoder encoder = new DictionaryEncoder(new ApplicationConfig());
+        DictionaryEncoder encoder = new DictionaryEncoder(applicationConfig);
         while ((line = in.readLine()) != null) {
             if (line.length() > 0) {
-
                 String key = encoder.encodeForWord(line);
                 List<String> associatedWords = map.get(key);
                 if (associatedWords == null) {

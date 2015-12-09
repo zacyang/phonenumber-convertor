@@ -1,6 +1,7 @@
 package com.aconex.convertor.query;
 
 import com.aconex.convertor.config.ApplicationConfig;
+import com.aconex.convertor.model.MatchingResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -30,7 +31,7 @@ public class MatchingResultInterpreterTester {
     public void shouldGenerateAllPossibleCombinationForGivenWords() throws Exception {
         //given
         //2255 should to transfer to list contains "CALL"
-        Criteria c = getDefaultCriteria();
+        MatchingResult c = getDefaultCriteria();
 
         //when
         List<String> allCombos = classUnderTest.getAllCombos(c);
@@ -43,7 +44,7 @@ public class MatchingResultInterpreterTester {
     @Test
     public void shouldBeOnlyOneCombinationWhenEachWordListIsSingle() throws Exception {
         //given
-        Criteria c = getSingleWordCriteria();
+        MatchingResult c = getSingleWordCriteria();
 
         //when
         List<String> allCombos = classUnderTest.getAllCombos(c);
@@ -55,7 +56,7 @@ public class MatchingResultInterpreterTester {
     @Test(expected = IllegalArgumentException.class)
     public void shouldRaiseExceptionWhenInputCriteriaIsNull() throws Exception {
         //given
-        Criteria c = null;
+        MatchingResult c = null;
 
         //when
         List<String> allCombos = classUnderTest.getAllCombos(c);
@@ -64,27 +65,30 @@ public class MatchingResultInterpreterTester {
     }
 
 
-    private Criteria getSingleWordCriteria() {
+    private MatchingResult getSingleWordCriteria() {
         List<String> word1 = asList("A");
         List<String> word2 = asList("B");
         List<String> word3 = asList("C");
-        List<List<String>> lists = asList(word1, word2, word3);
-        return new Criteria()
-                .nextWordMayBe(word1)
-                .nextWordMayBe(word2)
-                .nextWordMayBe(word3);
+        MatchingResult matchingResult = new MatchingResult();
+        matchingResult
+                .addNextWordPossibleMatching(word1);
+        matchingResult.addNextWordPossibleMatching(word2);
+        matchingResult.addNextWordPossibleMatching(word3);
+        return matchingResult;
     }
 
-    private Criteria getDefaultCriteria() {
+    private MatchingResult getDefaultCriteria() {
         List<String> word1 = asList("A", "B", "C");
         List<String> word2 = asList("A", "B", "C");
         List<String> word3 = asList("J", "K", "L");
         List<String> word4 = asList("J", "K", "L");
-        List<List<String>> lists = asList(word1, word2, word3, word4);
-        return new Criteria()
-                .nextWordMayBe(word1)
-                .nextWordMayBe(word2)
-                .nextWordMayBe(word3)
-                .nextWordMayBe(word4);
+        MatchingResult matchingResult = new MatchingResult();
+
+        matchingResult
+                .addNextWordPossibleMatching(word1);
+        matchingResult.addNextWordPossibleMatching(word2);
+        matchingResult.addNextWordPossibleMatching(word3);
+        matchingResult.addNextWordPossibleMatching(word4);
+        return matchingResult;
     }
 }

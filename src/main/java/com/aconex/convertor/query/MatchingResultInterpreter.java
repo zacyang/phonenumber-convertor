@@ -1,6 +1,7 @@
 package com.aconex.convertor.query;
 
 import com.aconex.convertor.config.ApplicationConfig;
+import com.aconex.convertor.model.MatchingResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +34,11 @@ public class MatchingResultInterpreter {
         return getAllPossibleCombination(result, rest, ++i);
     }
 
-    public List<String> getAllCombos(final Criteria criteria) {
-        if (null == criteria || criteria.getCriteriaList().isEmpty()) {
+    public List<String> getAllCombos(final MatchingResult matchingResult) {
+        if (null == matchingResult || matchingResult.getWordSequence().isEmpty()) {
             throw new IllegalArgumentException(CRITERIA_CAN_NOT_BE_EMPTY);
         }
-        List<List<String>> lists = criteria.getCriteriaList();
+        List<List<String>> lists = matchingResult.getWordSequence();
         List<String> result = getAllPossibleCombination(lists.get(0), lists, 1);
         return result;
     }

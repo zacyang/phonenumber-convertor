@@ -8,17 +8,18 @@ import java.util.Map;
 import java.util.Properties;
 
 public class ApplicationConfig {
-    private static final String ENCODING_PROPERTIES = "encoding.properties";
+    public static final String DEFAULT_DICT = "dic.txt";
+    private static final String ENCODING_PROPERTIES_NAME = "encoding.properties";
     private final Map<String, String> encodingConfig;
-    private final Properties configProp;
+    private final Properties encodingProperties;
     private String separator = "-";
 
     public ApplicationConfig() {
-        configProp = new Properties();
+        encodingProperties = new Properties();
         this.encodingConfig = new HashMap<>();
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream(ENCODING_PROPERTIES);
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream(ENCODING_PROPERTIES_NAME);
         try {
-            configProp.load(in);
+            encodingProperties.load(in);
         } catch (IOException e) {
             throw new IllegalStateException();
         }
@@ -26,8 +27,8 @@ public class ApplicationConfig {
     }
 
     private void initProperties() {
-        configProp.forEach((k, v) ->
-                encodingConfig.put(k.toString(), v.toString())
+        encodingProperties.forEach((k, v) ->
+                        encodingConfig.put(k.toString(), v.toString())
         );
     }
 
