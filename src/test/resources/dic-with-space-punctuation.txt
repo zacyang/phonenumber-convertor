@@ -1,0 +1,9 @@
+contains space
+a
+b
+sldkjf
+sdfj
+*word
+
+slkdjfk*otherword
+* word word*

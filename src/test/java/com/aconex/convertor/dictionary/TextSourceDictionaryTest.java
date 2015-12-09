@@ -43,6 +43,19 @@ public class TextSourceDictionaryTest {
     }
 
     @Test
+    public void sanityShouldRemovePunctuationInSpecifidDic() throws Exception {
+        //given
+        classUnderTest = new TextSourceDictionary(getPathForTestDictionary("dic-with-space-punctuation.txt"));
+        //when
+        List<String> words = classUnderTest.getWords();
+
+        //then
+        assertThat(words, is(notNullValue()));
+        words.forEach(word -> assertThat("word :" + word, UNDESIRABLES.matcher(word).find(), is(false)));
+    }
+
+
+    @Test
     public void shouldGetAllWordsOnDefaultTextDictionaryWhenSpecificPathIsEmpty() throws Exception {
         //given
         classUnderTest = new TextSourceDictionary("");
@@ -69,8 +82,7 @@ public class TextSourceDictionaryTest {
     @Test
     public void shouldBeAbleToReadDictionaryFromSpecificPath() throws Exception {
         //given
-        final String dir = System.getProperty("user.dir");
-        classUnderTest = new TextSourceDictionary(dir + "/src/test/resources/dic-test.txt");
+        classUnderTest = new TextSourceDictionary(getPathForTestDictionary("dic-test.txt"));
         //when
         List<String> words = classUnderTest.getWords();
 
@@ -78,6 +90,11 @@ public class TextSourceDictionaryTest {
         assertThat(words, is(notNullValue()));
         assertThat(words.size(), is(8));
         assertThat(words.contains("wordWill-0notappearOnRealdic"), is(true));
+    }
+
+    private String getPathForTestDictionary(String testDic) {
+        final String dir = System.getProperty("user.dir");
+        return dir + "/src/test/resources/"+testDic;
     }
 
     @Test

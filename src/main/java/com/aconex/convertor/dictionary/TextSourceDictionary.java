@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.aconex.convertor.helper.WordEscapeHelper.removeSpaceAndPunctuation;
+
 public class TextSourceDictionary implements DictionarySource {
     private final String dictionaryPath;
 
@@ -35,7 +37,7 @@ public class TextSourceDictionary implements DictionarySource {
 
     private List<String> getWordsFromSpecificDictionary() {
         try (Stream<String> stream = Files.lines(Paths.get(dictionaryPath))) {
-            return stream.collect(Collectors.toList());
+            return stream.map(word -> removeSpaceAndPunctuation(word)).collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
             return null;

@@ -12,12 +12,12 @@ import com.aconex.convertor.query.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
+
+import static com.aconex.convertor.helper.WordEscapeHelper.removeSpaceAndPunctuation;
 
 public class PhoneNumberConvertor {
     private static ApplicationConfig applicationConfig = new ApplicationConfig();
-    private static final Pattern UNDESIRABLES = Pattern.compile("[\\]\\[(){},.;!?<>%\\s]");
-    private final Query query;
+     private final Query query;
 
     public PhoneNumberConvertor(String dictionaryPath) {
         DictionaryEncoder encoder = new DictionaryEncoder(applicationConfig);
@@ -38,13 +38,5 @@ public class PhoneNumberConvertor {
             result.addAll(allCombos);
         }
         return result;
-    }
-
-    private String removeSpaceAndPunctuation(String number) {
-        String numberWithSpaceAndPunctuationRemoved = number;
-        if (number != null && !"".equals(number)) {
-            numberWithSpaceAndPunctuationRemoved = UNDESIRABLES.matcher(number).replaceAll("");
-        }
-        return numberWithSpaceAndPunctuationRemoved;
     }
 }
