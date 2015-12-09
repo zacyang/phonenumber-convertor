@@ -9,33 +9,43 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Arrays.asList;
+
 public class DictionaryEncoder {
     private final Map<String, String> encodeConfig;
-    private static final String PUNCTUATION_OR_SPACE = " " ;
+    private final List<String> ALL_DIGITAL = asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
 
     public DictionaryEncoder(final ApplicationConfig config) {
         this.encodeConfig = config.getEncodingConfig();
     }
 
-    private  Map<String, List<String>> encodeDictionary(final DictionarySource sourceDictionary) throws IOException {
+    public Map<String, List<String>> encodeDictionary(final DictionarySource sourceDictionary) throws IOException {
         Map<String, List<String>> map = new HashMap<>();
         List<String> dictionary = sourceDictionary.getWords();
-        dictionary.stream().filter(word -> word == null || word.contains(PUNCTUATION_OR_SPACE))
-                .forEach(word -> updateEncodingResult(map, word));
+        dictionary.forEach(word -> updateEncodedMap(map, word));
+        ALL_DIGITAL.forEach(digital -> addDefaultDigitalEncodingToItself(map, digital));
         return map;
     }
 
-    private void updateEncodingResult(final Map<String, List<String>> map,
-                                      final String line) {
-        String key = encodeForWord(line);
-        List<String> associatedWords = map.get(key);
-        if (associatedWords == null) {
-            List<String> newLine = new ArrayList<>();
-            newLine.add(line);
-            map.put(key, newLine);
-        } else {
-            associatedWords.add(new String(line));
-            map.put(key, associatedWords);
+    private void addDefaultDigitalEncodingToItself(Map<String, List<String>> map, String encode) {
+        List<String> associatedWords = map.get(encode);
+        List<String> newWords = associatedWords == null ? new ArrayList<String>() : associatedWords;
+        newWords.add(encode);
+        map.put(encode, newWords);
+    }
+
+    private void updateEncodedMap(Map<String, List<String>> map, String word) {
+        if (word.length() > 0) {
+            String key = encodeForWord(word);
+            List<String> associatedWords = map.get(key);
+            if (associatedWords == null) {
+                List<String> newLine = new ArrayList<>();
+                newLine.add(word);
+                map.put(key, newLine);
+            } else {
+                associatedWords.add(new String(word));
+                map.put(key, associatedWords);
+            }
         }
     }
 

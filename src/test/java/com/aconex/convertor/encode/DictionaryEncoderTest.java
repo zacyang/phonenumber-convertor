@@ -1,13 +1,16 @@
 package com.aconex.convertor.encode;
 
 import com.aconex.convertor.config.ApplicationConfig;
+import com.aconex.convertor.dictionary.DictionarySource;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -18,6 +21,8 @@ public class DictionaryEncoderTest {
 
     @Mock
     private ApplicationConfig applicationConfig;
+    @Mock
+    private DictionarySource dic;
 
     @Before
     public void setUp() throws Exception {
@@ -53,6 +58,16 @@ public class DictionaryEncoderTest {
         classUnderTest = new DictionaryEncoder(applicationConfig);
     }
 
+    @Test
+    public void shouldReturnExpectedEncodeMap() throws Exception {
+        //given
+        given(dic.getWords()).willReturn(asList("call","me"));
+        //when
+        Map<String, List<String>> stringListMap = classUnderTest.encodeDictionary(dic);
+        //then
+        assertThat(stringListMap.get("2255").get(0), is("call"));
+        assertThat(stringListMap.get("63").get(0), is("me"));
+    }
     @Test
     public void shouldReturnMatchedEncodedNumber() throws Exception {
         //given
