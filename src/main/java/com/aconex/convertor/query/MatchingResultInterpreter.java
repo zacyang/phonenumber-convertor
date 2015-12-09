@@ -44,9 +44,12 @@ public class MatchingResultInterpreter {
         }
         List<List<String>> lists = matchingResult.getWordSequence();
         List<String> result = getAllPossibleCombination(lists.get(0), lists, 1);
-        return result.stream().filter(word ->
-                        shouldNotContainsPunctuationDigitals(word)
-        ).collect(Collectors.toList());
+        return result.stream()
+                .filter(word ->
+                        shouldNotContainsPunctuationDigitals(word))
+                .map(word ->
+                        word.toUpperCase())
+                .collect(Collectors.toList());
     }
 
     private boolean shouldNotContainsPunctuationDigitals(String word) {

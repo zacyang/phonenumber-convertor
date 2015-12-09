@@ -3,7 +3,6 @@ package com.aconex.convertor.encode;
 import com.aconex.convertor.config.ApplicationConfig;
 import com.aconex.convertor.dictionary.DictionarySource;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +18,7 @@ public class DictionaryEncoder {
         this.encodeConfig = config.getEncodingConfig();
     }
 
-    public Map<String, List<String>> encodeDictionary(final DictionarySource sourceDictionary) throws IOException {
+    public Map<String, List<String>> encodeDictionary(final DictionarySource sourceDictionary)  {
         Map<String, List<String>> map = new HashMap<>();
         List<String> dictionary = sourceDictionary.getWords();
         dictionary.forEach(word -> updateEncodedMap(map, word));
