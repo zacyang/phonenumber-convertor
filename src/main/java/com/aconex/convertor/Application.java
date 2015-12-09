@@ -16,7 +16,15 @@ public class Application {
 
         List<String> allPossibleMatch = phoneNumberConvertor.getAllPossibleMatch(number);
 
-        allPossibleMatch.forEach(matchedWords -> System.out.println(matchedWords));
+        printResult(number, allPossibleMatch);
+    }
+
+    private static void printResult(String number, List<String> allPossibleMatch) {
+        if (allPossibleMatch.size() == 0) {
+            System.out.println("no possible match found for : " + number);
+        } else {
+            allPossibleMatch.forEach(matchedWords -> System.out.println(matchedWords));
+        }
     }
 
     private static String getArgValue(String[] args, String targetArgs, String errorInfo, boolean optional) {
