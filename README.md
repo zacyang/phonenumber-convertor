@@ -44,7 +44,7 @@ which is TextSourceDictionary (handling text based data source).
 5. FullMatchQuery will use the output from DictionaryEncoder, the encoded dictionary.And search all the possible match
 for a given number. The result is in a chunk. 
 
-e.g given "2255" [[["c"],["a","c"],["ll","lk"]] ....] which internally for the program meanning
+    e.g given "2255" [[["c"],["a","c"],["ll","lk"]] ....] which internally for the program meanning
  the result for this match is a 3 dimensional list, for each item in the list contains a 2 dimensional list (obviously),
  and that 2 dimensional list represent one combination in term of each word length say , first word length is 1, 
  second is 1, third is 2. And the leaf list contains all the possible combination matches both word length and the associated 
