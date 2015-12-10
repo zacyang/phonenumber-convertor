@@ -21,7 +21,8 @@ public class PhoneNumberConvertor {
 
     public PhoneNumberConvertor(final String dictionaryPath) {
         DictionaryEncoder encoder = new DictionaryEncoder(APPLICATION_CONFIG);
-        Map<String, List<String>> map = encoder.encodeDictionary(new TextSourceDictionary(dictionaryPath));
+        TextSourceDictionary sourceDictionary = new TextSourceDictionary(dictionaryPath, APPLICATION_CONFIG );
+        Map<String, List<String>> map = encoder.encodeDictionary(sourceDictionary);
         query = new FullMatchQuery(map);
     }
 

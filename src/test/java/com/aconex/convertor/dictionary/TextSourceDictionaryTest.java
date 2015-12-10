@@ -1,7 +1,9 @@
 package com.aconex.convertor.dictionary;
 
+import com.aconex.convertor.config.ApplicationConfig;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -10,14 +12,20 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class TextSourceDictionaryTest {
     private TextSourceDictionary classUnderTest;
     private static final Pattern UNDESIRABLES = Pattern.compile("[\\]\\[(){},.;!?<>%\\s]");
+    @Mock
+    private ApplicationConfig applicationConfig;
 
     @Before
     public void setUp() throws Exception {
-        classUnderTest = new TextSourceDictionary(null);
+        initMocks(this);
+        given(applicationConfig.getDefaultDict()).willReturn("dic.txt");
+        classUnderTest = new TextSourceDictionary(null, applicationConfig);
     }
 
     @Test
@@ -45,7 +53,7 @@ public class TextSourceDictionaryTest {
     @Test
     public void sanityShouldRemovePunctuationInSpecifidDic() throws Exception {
         //given
-        classUnderTest = new TextSourceDictionary(getPathForTestDictionary("dic-with-space-punctuation.txt"));
+        classUnderTest = new TextSourceDictionary(getPathForTestDictionary("dic-with-space-punctuation.txt"), applicationConfig);
         //when
         List<String> words = classUnderTest.getWords();
 
@@ -58,7 +66,7 @@ public class TextSourceDictionaryTest {
     @Test
     public void shouldGetAllWordsOnDefaultTextDictionaryWhenSpecificPathIsEmpty() throws Exception {
         //given
-        classUnderTest = new TextSourceDictionary("");
+        classUnderTest = new TextSourceDictionary("", applicationConfig);
         //when
         List<String> words = classUnderTest.getWords();
 
@@ -70,7 +78,7 @@ public class TextSourceDictionaryTest {
     @Test
     public void shouldGetAllWordsOnDefaultTextDictionaryWhenSpecificPathIsNull() throws Exception {
         //given
-        classUnderTest = new TextSourceDictionary(null);
+        classUnderTest = new TextSourceDictionary(null, applicationConfig);
         //when
         List<String> words = classUnderTest.getWords();
 
@@ -82,7 +90,7 @@ public class TextSourceDictionaryTest {
     @Test
     public void shouldBeAbleToReadDictionaryFromSpecificPath() throws Exception {
         //given
-        classUnderTest = new TextSourceDictionary(getPathForTestDictionary("dic-test.txt"));
+        classUnderTest = new TextSourceDictionary(getPathForTestDictionary("dic-test.txt"), applicationConfig);
         //when
         List<String> words = classUnderTest.getWords();
 
@@ -100,7 +108,7 @@ public class TextSourceDictionaryTest {
     @Test
     public void shouldReturnNullWhenEncounterProblemOfReadingDict() throws Exception {
         //given
-        classUnderTest = new TextSourceDictionary("dic-test-not-exists.txt");
+        classUnderTest = new TextSourceDictionary("dic-test-not-exists.txt", applicationConfig);
         //when
         List<String> words = classUnderTest.getWords();
 

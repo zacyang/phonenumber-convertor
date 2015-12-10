@@ -16,9 +16,12 @@ import static com.aconex.convertor.helper.WordEscapeHelper.removeSpaceAndPunctua
 
 public class TextSourceDictionary implements DictionarySource {
     private final String dictionaryPath;
+    private final ApplicationConfig applicationConfig;
 
-    public TextSourceDictionary(String specifiedDicPath) {
+
+    public TextSourceDictionary(String specifiedDicPath, ApplicationConfig applicationConfig) {
         this.dictionaryPath = specifiedDicPath;
+        this.applicationConfig = applicationConfig;
     }
 
     public List<String> getWords() {
@@ -30,7 +33,7 @@ public class TextSourceDictionary implements DictionarySource {
     }
 
     private List<String> getWordsFromDefaultDictionary() {
-        InputStream in = getClass().getResourceAsStream("/" + ApplicationConfig.DEFAULT_DICT);
+        InputStream in = getClass().getResourceAsStream("/" + applicationConfig.getDefaultDict());
         BufferedReader input = new BufferedReader(new InputStreamReader(in));
         return input.lines().collect(Collectors.toList());
     }

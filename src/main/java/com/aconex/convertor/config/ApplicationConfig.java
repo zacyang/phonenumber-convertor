@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 
 public class ApplicationConfig {
-    public static final String DEFAULT_DICT = "dic.txt";
+    private static final String DEFAULT_DICT = "dic.txt";
     private static final String ENCODING_PROPERTIES_NAME = "encoding.properties";
     private static final String APPLICATION_PROPERTIES_NAME = "application.properties";
     private final Map<String, String> encodingConfig;
@@ -51,4 +51,5 @@ public class ApplicationConfig {
         return this.separator;
     }
 
+    public String getDefaultDict() { return this.DEFAULT_DICT; }
 }
