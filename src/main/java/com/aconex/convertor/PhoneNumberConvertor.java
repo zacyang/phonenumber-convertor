@@ -16,11 +16,11 @@ import java.util.Map;
 import static com.aconex.convertor.helper.WordEscapeHelper.removeSpaceAndPunctuation;
 
 public class PhoneNumberConvertor {
-    private static ApplicationConfig applicationConfig = new ApplicationConfig();
-     private final Query query;
+    private final static ApplicationConfig APPLICATION_CONFIG = new ApplicationConfig();
+    private final Query query;
 
-    public PhoneNumberConvertor(String dictionaryPath) {
-        DictionaryEncoder encoder = new DictionaryEncoder(applicationConfig);
+    public PhoneNumberConvertor(final String dictionaryPath) {
+        DictionaryEncoder encoder = new DictionaryEncoder(APPLICATION_CONFIG);
         Map<String, List<String>> map = encoder.encodeDictionary(new TextSourceDictionary(dictionaryPath));
         query = new FullMatchQuery(map);
     }
@@ -29,14 +29,12 @@ public class PhoneNumberConvertor {
         this(null);
     }
 
-    public List<String> getAllPossibleMatch(String number) {
+    public List<String> getAllPossibleMatch(final String number) {
+        MatchingResultInterpreter matchingResultInterpreter = new MatchingResultInterpreter(APPLICATION_CONFIG);
         String numberWithSpaceAndPunctuationRemoved = removeSpaceAndPunctuation(number);
         List<MatchingResult> matched = query.getMatched(new MatchingMetaInfo(numberWithSpaceAndPunctuationRemoved));
         List<String> result = new ArrayList<>();
-        for (MatchingResult chunk : matched) {
-            List<String> allCombos = new MatchingResultInterpreter(applicationConfig).getAllCombos(chunk);
-            result.addAll(allCombos);
-        }
+        matched.forEach(chunk -> result.addAll(matchingResultInterpreter.getAllCombos(chunk)));
         return result;
     }
 }

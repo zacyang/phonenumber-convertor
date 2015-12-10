@@ -26,25 +26,25 @@ public class DictionaryEncoder {
         return map;
     }
 
-    private void addDefaultDigitalEncodingToItself(Map<String, List<String>> map, String encode) {
+    private void addDefaultDigitalEncodingToItself(final Map<String, List<String>> map,
+                                                   final String encode) {
+        updateMap(map, encode, encode);
+    }
+
+    private void updateMap(final Map<String, List<String>> map,
+                           final String encode,
+                           final String encode1) {
         List<String> associatedWords = map.get(encode);
         List<String> newWords = associatedWords == null ? new ArrayList<String>() : associatedWords;
-        newWords.add(encode);
+        newWords.add(encode1);
         map.put(encode, newWords);
     }
 
-    private void updateEncodedMap(Map<String, List<String>> map, String word) {
+    private void updateEncodedMap(final Map<String, List<String>> map,
+                                  final String word) {
         if (word.length() > 0) {
             String key = encodeForWord(word);
-            List<String> associatedWords = map.get(key);
-            if (associatedWords == null) {
-                List<String> newLine = new ArrayList<>();
-                newLine.add(word);
-                map.put(key, newLine);
-            } else {
-                associatedWords.add(new String(word));
-                map.put(key, associatedWords);
-            }
+            updateMap(map, key, word);
         }
     }
 

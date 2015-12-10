@@ -1,13 +1,9 @@
 package com.aconex.convertor;
 
-import com.aconex.convertor.config.ApplicationConfig;
-
 import java.io.IOException;
 import java.util.List;
 
 public class Application {
-    private static ApplicationConfig applicationConfig = new ApplicationConfig();
-
     public static void main(String[] args) throws IOException {
         String dictionaryPath = getArgValue(args, "-d", "requires a dictionary path", true);
         String number = getArgValue(args, "-p", "requires number to be converted", false);
